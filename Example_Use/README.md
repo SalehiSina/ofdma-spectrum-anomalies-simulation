@@ -14,7 +14,7 @@ Download the dataset from the following link:
 
  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20341906.svg)](https://doi.org/10.5281/zenodo.20341906)
 
-After downloading the dataset, unzip and place it inside the `Example_Use/Dataset` directory.
+After downloading the dataset, extract the files and specify the path to the extracted data directory in `..//datapath.txt`.
 
 ---
 
@@ -40,24 +40,37 @@ pip install -r requirements.txt
 To train the unsupervised (VAE) model, run:
 
 ```bash
-python src/train_unsupervised.py --data_path ".\Dataset" --Max_LR 0.001
+python src/train_unsupervised.py
 ```
 
-To train the supervised (ResNet) model, run:
+To train the supervised model, run:
 
 ```bash
-python src/train_unsupervised.py --data_path ".\Dataset" --Max_LR 0.001
+python src/train_supervised.py
 ```
 
-Or, to fine-tune the ResNet18 model using the pretrained weights located at `initial_path`, run:
+To exclude specific jammer types from the training set, use the --jammers_excluded argument followed by the names of the jammers you want to exclude:
 
 ```bash
-python src/train_unsupervised.py --data_path ".\Dataset" --Max_LR 1e-2 --initial_weights "initial_path"
+python src/train_supervised.py --jammers_excluded 'jammer1' 'jammer2'
+```
+
+---
+
+# Evaluation
+
+To obtain anomaly scores for each jammer type using the selected detection method, run `src/Test.py` with the corresponding arguments.
+
+For example, to evaluate the unsupervised method on barrage and deceptive jammers, run:
+
+```bash
+python src/Test.py --approach "unsupervised" --jammers 'barrage', 'deceptive'
 ```
 
 
 The trained weights are provided in the `Example_Use/Weights` directory. 
-You can use the jupyter notebooks provided to evaluate each method and visualise the detected anomalies for each sample.
+You can use the jupyter notebooks provided to evaluate obtained anomaly scores. 
+Additionally, you can visualize the anomalies detected by the VAE model for each sample.
 
 
 ---
